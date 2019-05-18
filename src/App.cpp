@@ -1,7 +1,9 @@
 #include "include/App.h"
 
 void VkApp::Start()
-{}
+{
+	m_input_manger.InitialiseInput();
+}
 
 void VkApp::Update()
 {
@@ -18,7 +20,5 @@ void VkApp::Close()
 
 bool VkApp::Input()
 {
-	m_input_manger.InitialiseInput();
-
-	return false;
+	return m_input_manger.KeyHit(eKeyCodes::KeyEsc);
 }
