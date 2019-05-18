@@ -21,7 +21,11 @@ private:
 
 	void UpdateWindowTitle();
 
+	static void WindowCloseCallback(GLFWwindow*);
+
 	bool Input();
+
+	static bool m_force_close;
 
 	InputManager m_input_manager;
 

@@ -3,10 +3,13 @@
 extern VkGen::VkGenerator g_VkGenerator;
 extern Logger             g_Logger;
 
+bool VkApp::m_force_close = false;
+
 void VkApp::Start()
 {
 	m_input_manager.InitialiseInput(g_VkGenerator.WindowHdle());
 	g_VkGenerator.DisplayWindow(true);
+	glfwSetWindowCloseCallback(g_VkGenerator.WindowHdle(), &WindowCloseCallback);
 
 #ifndef NDEBUG
 	const HANDLE cmd_handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -39,8 +42,18 @@ void VkApp::UpdateWindowTitle()
 	glfwSetWindowTitle(g_VkGenerator.WindowHdle(), title.c_str());
 }
 
+void VkApp::WindowCloseCallback(GLFWwindow* _window)
+{
+	m_force_close = true;
+}
+
 bool VkApp::ShouldStop()
 {
+	if (m_force_close)
+	{
+		return true;
+	}
+
 	return Input();
 }
 

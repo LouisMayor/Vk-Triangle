@@ -1,6 +1,7 @@
 #include "include/TriangleDemo.h"
 
-Logger g_Logger;
+extern VkGen::VkGenerator g_VkGenerator;
+Logger                    g_Logger;
 
 void VkTriangleDemo::Setup()
 {
@@ -23,7 +24,7 @@ void VkTriangleDemo::Run()
 	float init_time      = 0.0f;
 	bool  stop_execution = false;
 
-	while (!stop_execution)
+	while (!stop_execution || !glfwWindowShouldClose(g_VkGenerator.WindowHdle()))
 	{
 		const float total_time = static_cast<float>(glfwGetTime());
 		const float delta      = total_time - init_time;
