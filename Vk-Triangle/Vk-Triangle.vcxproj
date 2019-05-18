@@ -148,6 +148,7 @@
     <ClInclude Include="..\src\include\App.h" />
     <ClInclude Include="..\src\include\Demo.h" />
     <ClInclude Include="..\src\include\InputManager.h" />
+    <ClInclude Include="..\src\include\Logger.h" />
     <ClInclude Include="..\src\include\TriangleDemo.h" />
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.hpp" />
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.ipp" />

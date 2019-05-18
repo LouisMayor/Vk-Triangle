@@ -1,5 +1,7 @@
 #include "include/TriangleDemo.h"
 
+Logger g_Logger;
+
 void VkTriangleDemo::Setup()
 {
 	m_app_instance.Start();
