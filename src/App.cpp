@@ -18,5 +18,7 @@ void VkApp::Close()
 
 bool VkApp::Input()
 {
+	m_input_manger.InitialiseInput();
+
 	return false;
 }

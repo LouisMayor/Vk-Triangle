@@ -3,6 +3,9 @@
 #include "vulkan/vulkan.hpp"
 #include <iostream>
 
+#define GLFW_INCLUDE_VULKAN
+#include "glfw3.h"
+
 namespace VkGen
 {
 	struct QueueFamilyIndices
