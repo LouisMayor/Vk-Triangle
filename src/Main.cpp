@@ -1,15 +1,15 @@
-#define GLFW_INCLUDE_VULKAN
-#include "glfw3.h"
+#include "include/TriangleDemo.h"
 
-#include "include/Vk-Generator/VkGenerator.hpp"
+VkGen::VkGenerator VkGenInstance(true, 1280, 720);
 
 int main()
 {
-	VkGen::VkGenerator VkGenInstance(true, 1280, 720);
 	VkGenInstance.LogStateOnInitisation(true);
 	VkGenInstance.LogDeviceInfo(true);
 
 	VkGenInstance.Init();
+
+	VkTriangleDemo triangle_demo;
 
 	VkGenInstance.Destroy();
 

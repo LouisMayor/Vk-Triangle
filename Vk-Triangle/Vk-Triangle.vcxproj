@@ -145,11 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\include\App.h" />
+    <ClInclude Include="..\src\include\Demo.h" />
+    <ClInclude Include="..\src\include\TriangleDemo.h" />
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.hpp" />
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.ipp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\TriangleDemo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

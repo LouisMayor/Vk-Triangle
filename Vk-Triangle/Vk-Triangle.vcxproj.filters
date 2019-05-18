@@ -24,9 +24,21 @@
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.ipp">
       <Filter>Header Files\Vk-Generator</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\include\Demo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\include\TriangleDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\include\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TriangleDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
