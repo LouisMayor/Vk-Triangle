@@ -16,7 +16,6 @@ bool VkApp::ShouldStop()
 void VkApp::Close()
 {}
 
-
 bool VkApp::Input()
 {
 	return false;
