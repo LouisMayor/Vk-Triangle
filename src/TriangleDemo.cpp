@@ -14,6 +14,7 @@ void VkTriangleDemo::Setup()
 	CreatePipelines();
 	RecordCmdBuffer();
 
+	m_app_instance.SetWindowTitle("Vulkan Triangle Demo");
 	m_app_instance.Start();
 }
 

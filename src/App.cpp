@@ -23,12 +23,30 @@ void VkApp::Start()
 
 void VkApp::Update(float _delta)
 {
+	m_last_delta = _delta;
 	m_total_time += _delta;
+
+	UpdateWindowTitle();
+}
+
+void VkApp::UpdateWindowTitle()
+{
+	std::string title = m_window_title + " ||";
+	title += " Delta " + std::to_string(m_last_delta);
+	title += " FPS " + std::to_string(1 / m_last_delta);
+	title += " Timer " + std::to_string(m_total_time);
+
+	glfwSetWindowTitle(g_VkGenerator.WindowHdle(), title.c_str());
 }
 
 bool VkApp::ShouldStop()
 {
 	return Input();
+}
+
+void VkApp::SetWindowTitle(std::string _title)
+{
+	m_window_title = _title;
 }
 
 void VkApp::Close()

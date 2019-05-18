@@ -15,11 +15,18 @@ public:
 
 	bool ShouldStop();
 
+	void SetWindowTitle(std::string);
+
 private:
+
+	void UpdateWindowTitle();
 
 	bool Input();
 
 	InputManager m_input_manager;
 
-	float m_total_time;
+	float m_total_time = 0.0f;
+	float m_last_delta;
+
+	std::string m_window_title = "";
 };
