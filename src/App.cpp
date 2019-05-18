@@ -4,7 +4,7 @@ extern VkGen::VkGenerator g_VkGenerator;
 
 void VkApp::Start()
 {
-	m_input_manger.InitialiseInput(g_VkGenerator.WindowHdle());
+	m_input_manager.InitialiseInput(g_VkGenerator.WindowHdle());
 	g_VkGenerator.DisplayWindow(true);
 }
 
@@ -25,5 +25,5 @@ void VkApp::Close()
 bool VkApp::Input()
 {
 	glfwPollEvents();
-	return m_input_manger.KeyHit(eKeyCodes::KeyEsc);
+	return m_input_manager.KeyHit(eKeyCodes::KeyEsc);
 }

@@ -18,5 +18,5 @@ private:
 
 	bool Input();
 
-	InputManager m_input_manger;
+	InputManager m_input_manager;
 };
