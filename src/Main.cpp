@@ -1,20 +1,21 @@
 #include "include/TriangleDemo.h"
 
-VkGen::VkGenerator VkGenInstance(true, 1280, 720);
+VkGen::VkGenerator g_VkGenerator(1280, 720);
 
 int main()
 {
-	VkGenInstance.LogStateOnInitisation(true);
-	VkGenInstance.LogDeviceInfo(true);
+	g_VkGenerator.RequireValidation(true);
+	g_VkGenerator.LogStateOnInitisation(true);
+	g_VkGenerator.LogDeviceInfo(true);
 
-	VkGenInstance.Init();
+	g_VkGenerator.Init();
 
 	VkTriangleDemo triangle_demo;
 	triangle_demo.Setup();
 	triangle_demo.Run();
 	triangle_demo.Shutdown();
 
-	VkGenInstance.Destroy();
+	g_VkGenerator.Destroy();
 
 	return 0;
 }

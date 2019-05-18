@@ -3,8 +3,6 @@
 #include "Vk-Generator/VkGenerator.hpp"
 #include "InputManager.h"
 
-extern VkGen::VkGenerator g_VkGenerator;
-
 class VkApp
 {
 public:

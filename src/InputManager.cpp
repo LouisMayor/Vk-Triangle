@@ -2,15 +2,7 @@
 
 eKeyState gAllKeyStates[int(eKeyCodes::NumOfKeyCodes)];
 
-void InputManager::InitialiseInput()
-{
-	for (auto i = 0 ; i < int(eKeyCodes::NumOfKeyCodes) ; ++i)
-	{
-		gAllKeyStates[i] = eKeyState::NotPressed;
-	}
-}
-
-void InputManager::KeyEvent(GLFWwindow* _window, int key, int scancode, int action, int mods)
+void KeyEvent(GLFWwindow* _window, int key, int scancode, int action, int mods)
 {
 	if (action != 0)
 	{
@@ -27,6 +19,18 @@ void InputManager::KeyEvent(GLFWwindow* _window, int key, int scancode, int acti
 	{
 		gAllKeyStates[key] = eKeyState::NotPressed;
 	}
+}
+
+void InputManager::InitialiseInput(GLFWwindow* _window)
+{
+	for (auto i = 0 ; i < int(eKeyCodes::NumOfKeyCodes) ; ++i)
+	{
+		gAllKeyStates[i] = eKeyState::NotPressed;
+	}
+
+	glfwSetKeyCallback(_window, KeyEvent);
+	glfwSetCursorPosCallback(_window, nullptr);
+	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 bool InputManager::KeyHeld(eKeyCodes _keyCode)

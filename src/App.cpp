@@ -1,24 +1,29 @@
 #include "include/App.h"
 
+extern VkGen::VkGenerator g_VkGenerator;
+
 void VkApp::Start()
 {
-	m_input_manger.InitialiseInput();
+	m_input_manger.InitialiseInput(g_VkGenerator.WindowHdle());
+	g_VkGenerator.DisplayWindow(true);
 }
 
 void VkApp::Update()
-{
-	ShouldStop();
-}
+{}
 
 bool VkApp::ShouldStop()
 {
-	return !Input();
+	return Input();
 }
 
 void VkApp::Close()
-{}
+{
+	glfwDestroyWindow(g_VkGenerator.WindowHdle());
+	glfwTerminate();
+}
 
 bool VkApp::Input()
 {
+	glfwPollEvents();
 	return m_input_manger.KeyHit(eKeyCodes::KeyEsc);
 }

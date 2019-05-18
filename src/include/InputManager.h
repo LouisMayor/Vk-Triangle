@@ -107,9 +107,7 @@ enum class eKeyCodes : int
 class InputManager
 {
 public:
-	void InitialiseInput();
-
-	void KeyEvent(GLFWwindow* _window, int key, int scancode, int action, int mods);
+	void InitialiseInput(GLFWwindow*);
 
 	eKeyState ReportKeyState(eKeyCodes _keyCode);
 

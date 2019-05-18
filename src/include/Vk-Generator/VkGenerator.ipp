@@ -45,6 +45,25 @@ namespace VkGen
 		m_log_state_on_initialise = logInitilseVal;
 	}
 
+	inline void VkGenerator::DisplayWindow(VkBool32 _show)
+	{
+		if (platform_lib == ELibrary::SDL2)
+		{ }
+		else if (platform_lib == ELibrary::GLFW)
+		{
+			if (m_window_showing)
+			{
+				glfwHideWindow(m_window_handle);
+				m_window_showing = false;
+			}
+			else
+			{
+				glfwShowWindow(m_window_handle);
+				m_window_showing = true;
+			}
+		}
+	}
+
 	inline void VkGenerator::CreateWindow()
 	{
 		if (platform_lib == ELibrary::SDL2)
@@ -69,6 +88,8 @@ namespace VkGen
 
 			glfwSetWindowPos(m_window_handle, 0, 30);
 			glfwHideWindow(m_window_handle);
+
+			m_window_showing = false;
 		}
 	}
 

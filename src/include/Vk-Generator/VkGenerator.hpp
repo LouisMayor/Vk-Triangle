@@ -52,9 +52,8 @@ namespace VkGen
 		/* public functions */
 	public:
 		/* constructor/destructor */
-		VkGenerator(const bool _enable_validation,
-		            const int  _bufferX,
-		            const int  _bufferY) : m_isDestroyed(false)
+		VkGenerator(const int _bufferX,
+		            const int _bufferY) : m_isDestroyed(false)
 		{
 			m_buffer_resolution[0] = _bufferX;
 			m_buffer_resolution[1] = _bufferY;
@@ -83,6 +82,9 @@ namespace VkGen
 
 		/* Destroy */
 		void Destroy();
+
+		/* Toggle Window */
+		void DisplayWindow(VkBool32);
 
 		/* private functions */
 	private:
@@ -144,7 +146,7 @@ namespace VkGen
 			m_log_state_on_initialise = _log;
 		}
 
-		void LogDeviceInfo( VkBool32 _log )
+		void LogDeviceInfo(VkBool32 _log)
 		{
 			m_log_device_info = _log;
 		}
@@ -179,6 +181,11 @@ namespace VkGen
 			return m_present_queue;
 		}
 
+		WindowHandle* WindowHdle()
+		{
+			return m_window_handle;
+		}
+
 		/* public members */
 	public:
 
@@ -201,6 +208,7 @@ namespace VkGen
 		bool m_isDestroyed             = true;
 		bool m_log_state_on_initialise = true;
 		bool m_log_device_info         = true;
+		bool m_window_showing          = false;
 
 		vk::DebugUtilsMessengerEXT m_callback;
 
