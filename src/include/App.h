@@ -16,5 +16,9 @@ public:
 
 	void Close();
 
+	bool ShouldStop();
+
 private:
+
+	bool Input();
 };

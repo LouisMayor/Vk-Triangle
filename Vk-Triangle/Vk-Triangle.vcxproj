@@ -152,6 +152,7 @@
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.ipp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\App.cpp" />
     <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\TriangleDemo.cpp" />
   </ItemGroup>

@@ -10,10 +10,11 @@ int main()
 	VkGenInstance.Init();
 
 	VkTriangleDemo triangle_demo;
+	triangle_demo.Setup();
+	triangle_demo.Run();
+	triangle_demo.Shutdown();
 
 	VkGenInstance.Destroy();
-
-	std::cin.get();
 
 	return 0;
 }
