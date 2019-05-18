@@ -1,6 +1,5 @@
 #pragma once
 
-/* GLFW Implementation only */
 #include "App.h"
 
 enum class eKeyState : int
