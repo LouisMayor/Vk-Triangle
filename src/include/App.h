@@ -9,7 +9,7 @@ class VkApp
 public:
 	void Start();
 
-	void Update();
+	void Update(float);
 
 	void Close();
 
@@ -20,4 +20,6 @@ private:
 	bool Input();
 
 	InputManager m_input_manager;
+
+	float m_total_time;
 };

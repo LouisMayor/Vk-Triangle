@@ -21,8 +21,10 @@ void VkApp::Start()
 #endif
 }
 
-void VkApp::Update()
-{}
+void VkApp::Update(float _delta)
+{
+	m_total_time += _delta;
+}
 
 bool VkApp::ShouldStop()
 {
