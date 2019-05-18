@@ -287,21 +287,22 @@ namespace VkGen
 
 	inline VkBool32 VkGenerator::IsDeviceSuitable(const vk::PhysicalDevice _physical_device)
 	{
-		QueueFamilyIndices indices            = FindQueueFamilies(_physical_device);
-		const VkBool32     extensionSupported = CheckDeviceExtensionSupport(_physical_device);
+		m_queue_family_indices            = FindQueueFamilies(_physical_device);
+		const VkBool32 extensionSupported = CheckDeviceExtensionSupport(_physical_device);
 
 		bool swapChainAdequate = false;
 
 		if (extensionSupported)
 		{
-			SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(_physical_device);
-			swapChainAdequate                        = !swapChainSupport.formats.empty() && !swapChainSupport.
-			                                                                                 presentModes.empty();
+			m_swapchain_support = QuerySwapChainSupport(_physical_device);
+			swapChainAdequate   = !m_swapchain_support.formats.empty() && !m_swapchain_support.
+			                                                               presentModes.empty();
 		}
 
 		vk::PhysicalDeviceFeatures supportedFeatures = _physical_device.getFeatures();
 
-		return indices.IsComplete() && extensionSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
+		return m_queue_family_indices.IsComplete() && extensionSupported
+				&& swapChainAdequate && supportedFeatures.samplerAnisotropy;
 	}
 
 	inline VkBool32 VkGenerator::ValidationLayerSupport() const

@@ -49,4 +49,7 @@ private:
 	void CreateColourResources() override;
 
 	void CreateDepthResources() override;
+
+	/* Swapchain */
+	VkRes::Swapchain m_swapchain;
 };

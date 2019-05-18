@@ -54,12 +54,12 @@ bool VkApp::ShouldStop()
 		return true;
 	}
 
-	return Input();
+	return Input() || glfwWindowShouldClose(g_VkGenerator.WindowHdle());
 }
 
 void VkApp::SetWindowTitle(std::string _title)
 {
-	m_window_title = _title;
+	m_window_title = std::move(_title);
 }
 
 void VkApp::Close()

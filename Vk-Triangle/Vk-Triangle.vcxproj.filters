@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Vk-Generator">
       <UniqueIdentifier>{10a0af25-0249-42fd-a500-6aebd055a4a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Vulkan Resources">
+      <UniqueIdentifier>{f965fd2f-e632-47d6-adc1-52b62fef770c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\include\Vk-Generator\VkGenerator.hpp">
@@ -38,6 +41,12 @@
     </ClInclude>
     <ClInclude Include="..\src\include\Logger.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\include\Swapchain.h">
+      <Filter>Header Files\Vulkan Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\include\vulkan_resources.h">
+      <Filter>Header Files\Vulkan Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ void VkTriangleDemo::Run()
 	float init_time      = 0.0f;
 	bool  stop_execution = false;
 
-	while (!stop_execution || !glfwWindowShouldClose(g_VkGenerator.WindowHdle()))
+	while (!stop_execution)
 	{
 		const float total_time = static_cast<float>(glfwGetTime());
 		const float delta      = total_time - init_time;
@@ -39,6 +39,8 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	m_swapchain.Destroy(g_VkGenerator.Device());
+
 	m_app_instance.Close();
 }
 
@@ -49,7 +51,10 @@ void VkTriangleDemo::RecordCmdBuffer()
 {}
 
 void VkTriangleDemo::CreateSwapchain()
-{}
+{
+	m_swapchain = VkRes::Swapchain(g_VkGenerator.PhysicalDevice(), g_VkGenerator.Device(), g_VkGenerator.Surface(),
+	                               g_VkGenerator.SwapchainDetails(), g_VkGenerator.QueueFamily());
+}
 
 void VkTriangleDemo::CreateImageViews()
 {}

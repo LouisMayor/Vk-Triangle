@@ -181,9 +181,24 @@ namespace VkGen
 			return m_present_queue;
 		}
 
+		vk::SurfaceKHR& Surface()
+		{
+			return m_surface;
+		}
+
 		WindowHandle* WindowHdle()
 		{
 			return m_window_handle;
+		}
+
+		SwapChainSupportDetails& SwapchainDetails()
+		{
+			return m_swapchain_support;
+		}
+
+		QueueFamilyIndices& QueueFamily()
+		{
+			return m_queue_family_indices;
 		}
 
 		/* public members */
@@ -194,6 +209,9 @@ namespace VkGen
 		vk::Instance       m_instance;
 		vk::PhysicalDevice m_physical_device;
 		vk::Device         m_device;
+
+		SwapChainSupportDetails m_swapchain_support;
+		QueueFamilyIndices      m_queue_family_indices;
 
 		// potentially passed in via caller and not stored with VkGenerator
 		vk::Queue m_graphics_queue;
