@@ -2,14 +2,14 @@
 
 #include "Vk-Generator/VkGenerator.hpp"
 
-enum class eKeyState : int
+enum class EKeyState : int
 {
 	NotPressed = 0,
 	Pressed = 1,
 	Held = 2
 };
 
-enum class eKeyCodes : int
+enum class EKeyCodes : int
 {
 	// Mouse
 
@@ -109,9 +109,9 @@ class InputManager
 public:
 	void InitialiseInput(GLFWwindow*);
 
-	eKeyState ReportKeyState(eKeyCodes _keyCode);
+	EKeyState ReportKeyState(EKeyCodes _key_code);
 
-	bool KeyHit(eKeyCodes _keyCode);
+	bool KeyHit(EKeyCodes _keyCode);
 
-	bool KeyHeld(eKeyCodes _keyCode);
+	bool KeyHeld(EKeyCodes _key_code);
 };

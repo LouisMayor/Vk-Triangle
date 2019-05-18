@@ -20,17 +20,17 @@ void VkTriangleDemo::Setup()
 
 void VkTriangleDemo::Run()
 {
-	float initTime      = 0.0f;
-	bool  stopExecution = false;
+	float init_time      = 0.0f;
+	bool  stop_execution = false;
 
-	while (!stopExecution)
+	while (!stop_execution)
 	{
 		const float total_time = static_cast<float>(glfwGetTime());
-		const float delta      = total_time - initTime;
-		initTime               = total_time;
+		const float delta      = total_time - init_time;
+		init_time              = total_time;
 
 		m_app_instance.Update(delta);
-		stopExecution = m_app_instance.ShouldStop();
+		stop_execution = m_app_instance.ShouldStop();
 
 		SubmitQueue();
 	}

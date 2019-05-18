@@ -1,31 +1,31 @@
 #include "include/InputManager.h"
 
-eKeyState gAllKeyStates[int(eKeyCodes::NumOfKeyCodes)];
+EKeyState g_AllKeyStates[int(EKeyCodes::NumOfKeyCodes)];
 
-void KeyEvent(GLFWwindow* _window, int key, int scancode, int action, int mods)
+void KeyEvent(GLFWwindow* _window, int key, int scan_code, int action, int mods)
 {
 	if (action != 0)
 	{
-		if (gAllKeyStates[key] == eKeyState::NotPressed)
+		if (g_AllKeyStates[key] == EKeyState::NotPressed)
 		{
-			gAllKeyStates[key] = eKeyState::Pressed;
+			g_AllKeyStates[key] = EKeyState::Pressed;
 		}
 		else
 		{
-			gAllKeyStates[key] = eKeyState::Held;
+			g_AllKeyStates[key] = EKeyState::Held;
 		}
 	}
 	else
 	{
-		gAllKeyStates[key] = eKeyState::NotPressed;
+		g_AllKeyStates[key] = EKeyState::NotPressed;
 	}
 }
 
 void InputManager::InitialiseInput(GLFWwindow* _window)
 {
-	for (auto i = 0 ; i < int(eKeyCodes::NumOfKeyCodes) ; ++i)
+	for (auto i = 0 ; i < int(EKeyCodes::NumOfKeyCodes) ; ++i)
 	{
-		gAllKeyStates[i] = eKeyState::NotPressed;
+		g_AllKeyStates[i] = EKeyState::NotPressed;
 	}
 
 	glfwSetKeyCallback(_window, KeyEvent);
@@ -33,29 +33,29 @@ void InputManager::InitialiseInput(GLFWwindow* _window)
 	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-bool InputManager::KeyHeld(eKeyCodes _keyCode)
+bool InputManager::KeyHeld(EKeyCodes _key_code)
 {
-	int location = static_cast<int>(_keyCode);
-	if (gAllKeyStates[location] == eKeyState::NotPressed)
+	int location = static_cast<int>(_key_code);
+	if (g_AllKeyStates[location] == EKeyState::NotPressed)
 	{
 		return false;
 	}
-	gAllKeyStates[location] = eKeyState::Held;
+	g_AllKeyStates[location] = EKeyState::Held;
 	return true;
 }
 
-bool InputManager::KeyHit(eKeyCodes _keyCode)
+bool InputManager::KeyHit(EKeyCodes _key_code)
 {
-	int location = static_cast<int>(_keyCode);
-	if (gAllKeyStates[int(location)] == eKeyState::Pressed)
+	int location = static_cast<int>(_key_code);
+	if (g_AllKeyStates[int(location)] == EKeyState::Pressed)
 	{
-		gAllKeyStates[int(location)] = eKeyState::Held;
+		g_AllKeyStates[int(location)] = EKeyState::Held;
 		return true;
 	}
 	return false;
 }
 
-eKeyState InputManager::ReportKeyState(eKeyCodes _keyCode)
+EKeyState InputManager::ReportKeyState(EKeyCodes _key_code)
 {
-	return gAllKeyStates[static_cast<int>(_keyCode)];
+	return g_AllKeyStates[static_cast<int>(_key_code)];
 }

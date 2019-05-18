@@ -40,15 +40,13 @@ private:
 
 	void CreateCmdPool() override;
 
-	void CreateRenderPasses( ) override;
+	void CreateRenderPasses() override;
 
-	void CreateFrameBuffers( ) override;
+	void CreateFrameBuffers() override;
 
-	void CreatePipelines( ) override;
+	void CreatePipelines() override;
 
-	void CreateColourResources( ) override;
+	void CreateColourResources() override;
 
-	void CreateDepthResources( ) override;
-
-private:
+	void CreateDepthResources() override;
 };
