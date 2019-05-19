@@ -1,7 +1,7 @@
 #include "include/TriangleDemo.h"
 
 extern VkGen::VkGenerator g_VkGenerator;
-Logger                    g_Logger;
+extern Logger             g_Logger;
 
 void VkTriangleDemo::Setup()
 {
@@ -42,6 +42,26 @@ void VkTriangleDemo::Shutdown()
 	m_command.Destroy(g_VkGenerator.Device());
 
 	m_app_instance.Close();
+}
+
+VkBool32 VkTriangleDemo::TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT      _messageSeverity,
+                                                   VkDebugUtilsMessageTypeFlagsEXT             _messageType,
+                                                   const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData, void* _pUserData)
+{
+	std::string message = "validation layer: ";
+	if (_messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+	{
+		g_Logger.Error(message + _pCallbackData->pMessage);
+	}
+	else if (_messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+	{
+		g_Logger.Warning(message + _pCallbackData->pMessage);
+	}
+	else
+	{
+		g_Logger.Info(message + _pCallbackData->pMessage);
+	}
+	return VK_FALSE;
 }
 
 void VkTriangleDemo::SubmitQueue()

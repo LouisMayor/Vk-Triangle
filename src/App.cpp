@@ -12,12 +12,9 @@ void VkApp::Start()
 	glfwSetWindowCloseCallback(g_VkGenerator.WindowHdle(), &WindowCloseCallback);
 
 #ifndef NDEBUG
-	const HANDLE cmd_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	const int    x          = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
-	SetWindowPos(GetConsoleWindow(), 0, x - 1024, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-	g_Logger.Create(cmd_handle);
-	g_Logger.Info("Logger Created");
-	g_Logger.Info("VkApp::Start() Executed");
+	const int    x = glfwGetVideoMode( glfwGetPrimaryMonitor( ) )->width;
+	SetWindowPos( GetConsoleWindow( ), 0, x - 1024, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
+	g_Logger.Info( "VkApp::Start() Executed" );
 #else
 	HANDLE cmdHandle = nullptr;
 	glfwSetInputMode( windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED );

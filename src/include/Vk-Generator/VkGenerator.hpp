@@ -86,6 +86,9 @@ namespace VkGen
 		/* Toggle Window */
 		void DisplayWindow(VkBool32);
 
+		/* Note: This isn't required, as VkGenerator does provide a default function callback */
+		void AddValidationLayerCallback( VkBool32( __stdcall *func_ptr )( VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT*, void* ) );
+
 		/* private functions */
 	private:
 		VkGenerator() = default;
@@ -219,6 +222,9 @@ namespace VkGen
 
 		vk::SurfaceKHR m_surface;
 		WindowHandle*  m_window_handle;
+
+		VkBool32(__stdcall *m_validation_callback )( VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, const
+							   VkDebugUtilsMessengerCallbackDataEXT*, void* );
 
 		int m_buffer_resolution[2];
 

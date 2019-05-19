@@ -100,6 +100,11 @@ namespace VkGen
 			return false;
 		}
 
+		if (m_validation_callback == nullptr)
+		{
+			m_validation_callback = DebugCallback;
+		}
+
 		vk::DebugUtilsMessengerCreateInfoEXT debug_create_info =
 		{
 			{},
@@ -107,7 +112,7 @@ namespace VkGen
 			vk::DebugUtilsMessageSeverityFlagBitsEXT::eError,
 			vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral | vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation |
 			vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance,
-			DebugCallback
+			m_validation_callback
 		};
 
 		m_callback = m_instance.createDebugUtilsMessengerEXT(debug_create_info, nullptr,
@@ -486,6 +491,13 @@ namespace VkGen
 		}
 
 		m_instance.destroyDebugUtilsMessengerEXT(m_callback, nullptr, vk::DispatchLoaderDynamic{m_instance});
+	}
+
+	inline void VkGenerator::AddValidationLayerCallback(
+		VkBool32 (__stdcall*func_ptr)(VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, const
+		                              VkDebugUtilsMessengerCallbackDataEXT* , void*                          ))
+	{
+		m_validation_callback = func_ptr;
 	}
 
 	inline bool VkGenerator::IsDestroyed() const
