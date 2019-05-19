@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Command.h"
+
 namespace VkRes
 {
 	static vk::ImageView CreateImageView(vk::Device _device, vk::Image            _image,
@@ -95,7 +97,7 @@ namespace VkRes
 	}
 
 	static void TransitionImageLayout(vk::Device      _device,
-	                                  vk::CommandPool _cmd_pool,
+	                                  VkRes::Command  _cmd,
 	                                  vk::Queue       _queue,
 	                                  vk::Image       _image,
 	                                  vk::Format      _format,
@@ -103,9 +105,4 @@ namespace VkRes
 	                                  vk::ImageLayout new_layout,
 	                                  uint32_t        _mip_levels)
 	{ }
-
-#include "Swapchain.h"
-#include "Command.h"
-#include "RenderTarget.h"
-#include "RenderPass.h"
 }

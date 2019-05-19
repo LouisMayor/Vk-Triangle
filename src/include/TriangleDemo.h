@@ -28,10 +28,10 @@ public:
 
 	void Shutdown() override;
 
-	static VKAPI_ATTR VkBool32 VKAPI_CALL TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT      _messageSeverity,
-	                                                                VkDebugUtilsMessageTypeFlagsEXT             _messageType,
-	                                                                const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData,
-	                                                                void*                                       _pUserData);
+	static VKAPI_ATTR VkBool32 VKAPI_CALL TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT      _message_severity,
+	                                                                VkDebugUtilsMessageTypeFlagsEXT             _message_type,
+	                                                                const VkDebugUtilsMessengerCallbackDataEXT* _p_callback_data,
+	                                                                void*                                       _p_user_data);
 
 private:
 

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "App.h"
-#include "vulkan_resources.h"
-
+#include "VulkanObjects.h"
 
 class VkDemo
 {

@@ -46,22 +46,23 @@ void VkTriangleDemo::Shutdown()
 	m_app_instance.Close();
 }
 
-VkBool32 VkTriangleDemo::TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT      _messageSeverity,
-                                                   VkDebugUtilsMessageTypeFlagsEXT             _messageType,
-                                                   const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData, void* _pUserData)
+VkBool32 VkTriangleDemo::TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT      _message_severity,
+                                                   VkDebugUtilsMessageTypeFlagsEXT             _message_type,
+                                                   const VkDebugUtilsMessengerCallbackDataEXT* _p_callback_data,
+                                                   void*                                       _p_user_data)
 {
 	std::string message = "validation layer: ";
-	if (_messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+	if (_message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
 	{
-		g_Logger.Error(message + _pCallbackData->pMessage);
+		g_Logger.Error(message + _p_callback_data->pMessage);
 	}
-	else if (_messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+	else if (_message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
 	{
-		g_Logger.Warning(message + _pCallbackData->pMessage);
+		g_Logger.Warning(message + _p_callback_data->pMessage);
 	}
 	else
 	{
-		g_Logger.Info(message + _pCallbackData->pMessage);
+		g_Logger.Info(message + _p_callback_data->pMessage);
 	}
 	return VK_FALSE;
 }
@@ -132,7 +133,7 @@ void VkTriangleDemo::CreateColourResources()
 	                                   (m_multisampling) ?
 		                                   vk::ImageLayout::eColorAttachmentOptimal :
 		                                   vk::ImageLayout::ePresentSrcKHR,
-	                                   m_command.CommandPool(), g_VkGenerator.GraphicsQueue());
+	                                   m_command, g_VkGenerator.GraphicsQueue());
 }
 
 void VkTriangleDemo::CreateDepthResources()
