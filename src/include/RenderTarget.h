@@ -57,6 +57,26 @@ public:
 		}
 	}
 
+	vk::Image& GetImage()
+	{
+		return m_image;
+	}
+
+	vk::ImageView& GetImageView()
+	{
+		return m_image_view;
+	}
+
+	vk::AttachmentDescription& GetAttachmentDesc()
+	{
+		return m_attachment_desc;
+	}
+
+	vk::AttachmentDescription& GetResolveAttachmentDesc()
+	{
+		return m_resolve_attachment_desc;
+	}
+
 private:
 
 	void CreateAttachmentDesc(vk::Format _format, vk::SampleCountFlagBits _num_samples, vk::ImageLayout _final_layout)
@@ -66,10 +86,10 @@ private:
 			{},
 			_format,
 			_num_samples,
-			vk::AttachmentLoadOp::eLoad,
+			vk::AttachmentLoadOp::eClear,
 			vk::AttachmentStoreOp::eStore,
-			vk::AttachmentLoadOp::eLoad,
-			vk::AttachmentStoreOp::eStore,
+			vk::AttachmentLoadOp::eDontCare,
+			vk::AttachmentStoreOp::eDontCare,
 			vk::ImageLayout::eUndefined,
 			_final_layout
 		};
@@ -82,10 +102,10 @@ private:
 			{},
 			_format,
 			_num_samples,
-			vk::AttachmentLoadOp::eLoad,
+			vk::AttachmentLoadOp::eDontCare,
 			vk::AttachmentStoreOp::eStore,
-			vk::AttachmentLoadOp::eLoad,
-			vk::AttachmentStoreOp::eStore,
+			vk::AttachmentLoadOp::eDontCare,
+			vk::AttachmentStoreOp::eDontCare,
 			vk::ImageLayout::eUndefined,
 			vk::ImageLayout::ePresentSrcKHR
 		};

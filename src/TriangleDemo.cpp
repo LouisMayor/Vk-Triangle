@@ -8,7 +8,7 @@ void VkTriangleDemo::Setup()
 	CreateSwapchain();
 	CreateCmdPool();
 	CreateColourResources();
-	CreateDepthResources();
+	CreateDepthResources(); // Not created for this program
 	CreateRenderPasses();
 	CreateFrameBuffers();
 	CreatePipelines();
@@ -38,6 +38,7 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	m_render_pass.Destroy(g_VkGenerator.Device());
 	m_backbuffer.Destroy(g_VkGenerator.Device());
 	m_command.Destroy(g_VkGenerator.Device());
 	m_swapchain.Destroy(g_VkGenerator.Device());
@@ -83,7 +84,37 @@ void VkTriangleDemo::CreateCmdPool()
 }
 
 void VkTriangleDemo::CreateRenderPasses()
-{}
+{
+	vk::AttachmentReference colour_attachment =
+	{
+		0,
+		vk::ImageLayout::eColorAttachmentOptimal
+	};
+
+	vk::AttachmentReference colour_resolve_attachment =
+	{
+		1,
+		vk::ImageLayout::eColorAttachmentOptimal
+	};
+
+	std::vector<vk::AttachmentDescription> attachments =
+	{
+		m_backbuffer.GetAttachmentDesc()
+	};
+
+	if (m_multisampling)
+	{
+		attachments.emplace_back(m_backbuffer.GetResolveAttachmentDesc());
+	}
+
+	m_render_pass = VkRes::RenderPass(attachments,
+	                                  &colour_attachment, 1,
+	                                  nullptr,
+	                                  m_multisampling ?
+		                                  &colour_resolve_attachment :
+		                                  nullptr, 1,
+	                                  vk::PipelineBindPoint::eGraphics, g_VkGenerator.Device());
+}
 
 void VkTriangleDemo::CreateFrameBuffers()
 {}

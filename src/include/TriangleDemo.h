@@ -56,6 +56,7 @@ private:
 	VkRes::Swapchain    m_swapchain;
 	VkRes::Command      m_command;
 	VkRes::RenderTarget m_backbuffer;
+	VkRes::RenderPass   m_render_pass;
 
 	bool m_multisampling = false;
 };

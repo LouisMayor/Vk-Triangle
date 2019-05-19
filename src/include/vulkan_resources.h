@@ -107,4 +107,5 @@ namespace VkRes
 #include "Swapchain.h"
 #include "Command.h"
 #include "RenderTarget.h"
+#include "RenderPass.h"
 }
