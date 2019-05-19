@@ -5,7 +5,7 @@ Logger             g_Logger;
 
 int main()
 {
-#ifndef NDEBUG
+#ifdef _DEBUG
 	const HANDLE cmd_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	g_Logger.Create(cmd_handle);
 	g_Logger.Info("Logger Created");
