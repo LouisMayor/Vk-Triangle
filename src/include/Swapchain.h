@@ -1,7 +1,5 @@
 #pragma once
 
-#include "vulkan_resources.h"
-
 #undef max // Window's max() conflict with <limits>' numeric_limits' max()
 
 #include <limits>

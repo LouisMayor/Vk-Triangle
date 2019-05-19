@@ -26,5 +26,6 @@ namespace VkRes
 	}
 
 #include "Swapchain.h"
+#include "Command.h"
 
 }

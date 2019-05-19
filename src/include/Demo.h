@@ -3,6 +3,7 @@
 #include "App.h"
 #include "vulkan_resources.h"
 
+
 class VkDemo
 {
 public:
@@ -35,8 +36,6 @@ private:
 	void virtual RecordCmdBuffer() = 0;
 
 	void virtual CreateSwapchain() = 0;
-
-	void virtual CreateImageViews() = 0;
 
 	void virtual CreateCmdPool() = 0;
 

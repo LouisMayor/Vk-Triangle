@@ -36,8 +36,6 @@ private:
 
 	void CreateSwapchain() override;
 
-	void CreateImageViews() override;
-
 	void CreateCmdPool() override;
 
 	void CreateRenderPasses() override;
@@ -52,4 +50,5 @@ private:
 
 	/* Swapchain */
 	VkRes::Swapchain m_swapchain;
+	VkRes::Command m_command;
 };

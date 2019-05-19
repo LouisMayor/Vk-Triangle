@@ -6,7 +6,6 @@ Logger                    g_Logger;
 void VkTriangleDemo::Setup()
 {
 	CreateSwapchain();
-	CreateImageViews();
 	CreateCmdPool();
 	CreateColourResources();
 	CreateDepthResources();
@@ -40,6 +39,7 @@ void VkTriangleDemo::Run()
 void VkTriangleDemo::Shutdown()
 {
 	m_swapchain.Destroy(g_VkGenerator.Device());
+	m_command.Destroy(g_VkGenerator.Device());
 
 	m_app_instance.Close();
 }
@@ -56,11 +56,10 @@ void VkTriangleDemo::CreateSwapchain()
 	                               g_VkGenerator.SwapchainDetails(), g_VkGenerator.QueueFamily());
 }
 
-void VkTriangleDemo::CreateImageViews()
-{}
-
 void VkTriangleDemo::CreateCmdPool()
-{}
+{
+	m_command = VkRes::Command(g_VkGenerator.Device(), g_VkGenerator.QueueFamily());
+}
 
 void VkTriangleDemo::CreateRenderPasses()
 {}

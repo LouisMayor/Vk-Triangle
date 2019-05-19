@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\include\App.h" />
+    <ClInclude Include="..\src\include\Command.h" />
     <ClInclude Include="..\src\include\Demo.h" />
     <ClInclude Include="..\src\include\InputManager.h" />
     <ClInclude Include="..\src\include\Logger.h" />

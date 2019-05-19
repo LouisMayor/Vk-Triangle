@@ -48,6 +48,9 @@
     <ClInclude Include="..\src\include\vulkan_resources.h">
       <Filter>Header Files\Vulkan Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\include\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Main.cpp">
