@@ -9,8 +9,8 @@ int main()
 	const HANDLE cmd_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	g_Logger.Create(cmd_handle);
 	g_Logger.Info("Logger Created");
-	g_VkGenerator.RequireValidation( true );
-	g_VkGenerator.AddValidationLayerCallback( VkTriangleDemo::TriangleDemoDebugCallback );
+	g_VkGenerator.RequireValidation(true);
+	g_VkGenerator.AddValidationLayerCallback(VkTriangleDemo::TriangleDemoDebugCallback);
 #endif
 
 	g_VkGenerator.LogStateOnInitisation(true);
