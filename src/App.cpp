@@ -16,7 +16,7 @@ void VkApp::Start()
 	SetWindowPos(GetConsoleWindow(), 0, x - 1024, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	g_Logger.Info("VkApp::Start() Executed");
 #else
-	glfwSetInputMode(g_VkGenerator.WindowHdle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(g_VkGenerator.WindowHdle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 #endif
 }
 
