@@ -2,6 +2,8 @@
 
 #include "Command.h"
 
+extern Logger g_Logger;
+
 namespace VkRes
 {
 	static vk::ImageView CreateImageView(vk::Device _device, vk::Image            _image,
@@ -96,13 +98,94 @@ namespace VkRes
 		return std::make_tuple(image, image_memory);
 	}
 
+	static bool HasStencilComponent(vk::Format _format)
+	{
+		return _format == vk::Format::eD32SfloatS8Uint || _format == vk::Format::eD24UnormS8Uint;
+	}
+
 	static void TransitionImageLayout(vk::Device      _device,
 	                                  VkRes::Command  _cmd,
 	                                  vk::Queue       _queue,
 	                                  vk::Image       _image,
 	                                  vk::Format      _format,
-	                                  vk::ImageLayout old_layout,
-	                                  vk::ImageLayout new_layout,
+	                                  vk::ImageLayout _old_layout,
+	                                  vk::ImageLayout _new_layout,
 	                                  uint32_t        _mip_levels)
-	{ }
+	{
+		auto buffer = _cmd.BeginSingleTimeCmds(_device);
+
+		vk::ImageMemoryBarrier barrier = {};
+
+		barrier.setOldLayout(_old_layout);
+		barrier.setNewLayout(_new_layout);
+		barrier.setSrcQueueFamilyIndex(VK_QUEUE_FAMILY_IGNORED);
+		barrier.setDstQueueFamilyIndex(VK_QUEUE_FAMILY_IGNORED);
+		barrier.setImage(_image);
+
+		vk::ImageSubresourceRange sub_res_range = {};
+
+		if (_new_layout == vk::ImageLayout::eDepthStencilAttachmentOptimal)
+		{
+			if (HasStencilComponent(_format))
+			{
+				sub_res_range.setAspectMask(vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil);
+			}
+			else
+			{
+				sub_res_range.setAspectMask(vk::ImageAspectFlagBits::eDepth);
+			}
+		}
+		else
+		{
+			sub_res_range.setAspectMask(vk::ImageAspectFlagBits::eColor);
+		}
+
+		sub_res_range.setBaseMipLevel(0);
+		sub_res_range.setLevelCount(_mip_levels);
+		sub_res_range.setBaseArrayLayer(0);
+		sub_res_range.setLayerCount(1);
+		barrier.setSubresourceRange(sub_res_range);
+
+		vk::PipelineStageFlags _src_stage;
+		vk::PipelineStageFlags _dst_stage;
+
+		if (_old_layout == vk::ImageLayout::eUndefined && _new_layout == vk::ImageLayout::eTransferDstOptimal)
+		{
+			barrier.setSrcAccessMask({});
+			barrier.setDstAccessMask(vk::AccessFlagBits::eTransferWrite);
+			_src_stage = vk::PipelineStageFlagBits::eTopOfPipe;
+			_dst_stage = vk::PipelineStageFlagBits::eTransfer;
+		}
+		else if (_old_layout == vk::ImageLayout::eTransferDstOptimal && _new_layout == vk::ImageLayout::eShaderReadOnlyOptimal)
+		{
+			barrier.setSrcAccessMask(vk::AccessFlagBits::eTransferWrite);
+			barrier.setDstAccessMask(vk::AccessFlagBits::eShaderRead);
+			_src_stage = vk::PipelineStageFlagBits::eTransfer;
+			_dst_stage = vk::PipelineStageFlagBits::eFragmentShader;
+		}
+		else if (_old_layout == vk::ImageLayout::eUndefined && _new_layout == vk::ImageLayout::eDepthStencilAttachmentOptimal)
+		{
+			barrier.setSrcAccessMask({});
+			barrier.setDstAccessMask(
+				vk::AccessFlagBits::eDepthStencilAttachmentWrite | vk::AccessFlagBits::eDepthStencilAttachmentRead);
+			_src_stage = vk::PipelineStageFlagBits::eTopOfPipe;
+			_dst_stage = vk::PipelineStageFlagBits::eEarlyFragmentTests;
+		}
+		else if (_old_layout == vk::ImageLayout::eUndefined && _new_layout == vk::ImageLayout::eColorAttachmentOptimal)
+		{
+			barrier.setSrcAccessMask({});
+			barrier.setDstAccessMask(vk::AccessFlagBits::eColorAttachmentWrite | vk::AccessFlagBits::eColorAttachmentRead);
+			_src_stage = vk::PipelineStageFlagBits::eTopOfPipe;
+			_dst_stage = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		}
+		else
+		{
+			g_Logger.Error("Unsupported image transition");
+			assert(("Unsupported image transition", nullptr));
+		}
+
+		buffer.pipelineBarrier(_src_stage, _dst_stage, {}, 0, nullptr, 0, nullptr, 1, &barrier);
+
+		_cmd.EndSingleTimeCmds(_device, buffer, _queue);
+	}
 }
