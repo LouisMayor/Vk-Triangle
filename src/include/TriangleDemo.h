@@ -53,10 +53,11 @@ private:
 
 	void CreateDepthResources() override;
 
-	VkRes::Swapchain    m_swapchain;
-	VkRes::Command      m_command;
-	VkRes::RenderTarget m_backbuffer;
-	VkRes::RenderPass   m_render_pass;
+	VkRes::Swapchain                m_swapchain;
+	VkRes::Command                  m_command;
+	VkRes::RenderTarget             m_backbuffer;
+	VkRes::RenderPass               m_render_pass;
+	std::vector<VkRes::FrameBuffer> m_framebuffers;
 
 	bool m_multisampling = false;
 };

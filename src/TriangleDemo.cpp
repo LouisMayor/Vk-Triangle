@@ -38,6 +38,11 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	for (auto& i : m_framebuffers)
+	{
+		i.Destroy(g_VkGenerator.Device());
+	}
+
 	m_render_pass.Destroy(g_VkGenerator.Device());
 	m_backbuffer.Destroy(g_VkGenerator.Device());
 	m_command.Destroy(g_VkGenerator.Device());
@@ -118,7 +123,22 @@ void VkTriangleDemo::CreateRenderPasses()
 }
 
 void VkTriangleDemo::CreateFrameBuffers()
-{}
+{
+	auto image_views = m_swapchain.ImageViews();
+	m_framebuffers.resize(image_views.size());
+
+	for (uint32_t i = 0 ; i < image_views.size() ; ++i)
+	{
+		const std::vector<vk::ImageView> attachments =
+		{
+			image_views[i]
+		};
+
+		m_framebuffers[i] = VkRes::FrameBuffer(g_VkGenerator.Device(), attachments,
+		                                       m_render_pass.Pass(), m_swapchain.Extent(),
+		                                       1);
+	}
+}
 
 void VkTriangleDemo::CreatePipelines()
 {}

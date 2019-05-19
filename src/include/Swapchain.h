@@ -96,6 +96,11 @@ namespace VkRes
 			_device.destroySwapchainKHR(m_swapchain);
 		}
 
+		std::vector<vk::ImageView>& ImageViews()
+		{
+			return m_swapchain_image_views;
+		}
+
 	private:
 
 		vk::SurfaceFormatKHR ChooseSwapchainSurfaceFormat(std::vector<vk::SurfaceFormatKHR> _formats)
