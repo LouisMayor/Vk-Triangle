@@ -12,14 +12,14 @@ int main()
 #endif
 
 	g_VkGenerator.RequireValidation(true);
+	g_VkGenerator.AddValidationLayerCallback(VkTriangleDemo::TriangleDemoDebugCallback);
+
 	g_VkGenerator.LogStateOnInitisation(true);
 	g_VkGenerator.LogDeviceInfo(true);
 
-	VkTriangleDemo triangle_demo;
-	g_VkGenerator.AddValidationLayerCallback(triangle_demo.TriangleDemoDebugCallback);
-
 	g_VkGenerator.Init();
 
+	VkTriangleDemo triangle_demo;
 	triangle_demo.Setup();
 	triangle_demo.Run();
 	triangle_demo.Shutdown();

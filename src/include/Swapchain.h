@@ -69,6 +69,16 @@ public:
 		CreateImageViews(_device);
 	}
 
+	vk::Extent2D Extent() const
+	{
+		return m_swapchain_extent;
+	}
+
+	vk::Format Format() const
+	{
+		return m_swapchain_image_format;
+	}
+
 	void Destroy(vk::Device _device)
 	{
 		_device.waitIdle();
@@ -78,7 +88,7 @@ public:
 			_device.destroyImageView(m_swapchain_image_views[i]);
 		}
 
-		_device.destroySwapchainKHR( m_swapchain );
+		_device.destroySwapchainKHR(m_swapchain);
 	}
 
 private:

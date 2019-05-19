@@ -53,7 +53,9 @@ private:
 
 	void CreateDepthResources() override;
 
-	/* Swapchain */
-	VkRes::Swapchain m_swapchain;
-	VkRes::Command   m_command;
+	VkRes::Swapchain    m_swapchain;
+	VkRes::Command      m_command;
+	VkRes::RenderTarget m_backbuffer;
+
+	bool m_multisampling = false;
 };

@@ -49,7 +49,10 @@
       <Filter>Header Files\Vulkan Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\src\include\Command.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Vulkan Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\include\RenderTarget.h">
+      <Filter>Header Files\Vulkan Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -38,8 +38,9 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
-	m_swapchain.Destroy(g_VkGenerator.Device());
+	m_backbuffer.Destroy(g_VkGenerator.Device());
 	m_command.Destroy(g_VkGenerator.Device());
+	m_swapchain.Destroy(g_VkGenerator.Device());
 
 	m_app_instance.Close();
 }
@@ -91,7 +92,17 @@ void VkTriangleDemo::CreatePipelines()
 {}
 
 void VkTriangleDemo::CreateColourResources()
-{}
+{
+	m_backbuffer = VkRes::RenderTarget(g_VkGenerator.PhysicalDevice(), g_VkGenerator.Device(),
+	                                   m_swapchain.Extent().width, m_swapchain.Extent().height, m_swapchain.Format(),
+	                                   vk::SampleCountFlagBits::e1, vk::ImageTiling::eOptimal,
+	                                   vk::ImageUsageFlagBits::eTransientAttachment | vk::ImageUsageFlagBits::eColorAttachment,
+	                                   vk::MemoryPropertyFlagBits::eDeviceLocal,
+	                                   (m_multisampling) ?
+		                                   vk::ImageLayout::eColorAttachmentOptimal :
+		                                   vk::ImageLayout::ePresentSrcKHR,
+	                                   m_command.CommandPool(), g_VkGenerator.GraphicsQueue());
+}
 
 void VkTriangleDemo::CreateDepthResources()
 {}
