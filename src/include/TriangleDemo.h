@@ -58,6 +58,7 @@ private:
 	VkRes::RenderTarget             m_backbuffer;
 	VkRes::RenderPass               m_render_pass;
 	std::vector<VkRes::FrameBuffer> m_framebuffers;
+	VkRes::GraphicsPipeline         m_graphics_pipeline;
 
 	bool m_multisampling = false;
 };

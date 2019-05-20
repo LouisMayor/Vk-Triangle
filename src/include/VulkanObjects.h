@@ -5,3 +5,4 @@
 #include "RenderTarget.h"
 #include "RenderPass.h"
 #include "FrameBuffer.h"
+#include "GraphicsPipeline.h"

@@ -70,9 +70,6 @@ namespace VkRes
 			_device.freeCommandBuffers(CommandPool(), 1, &_cmd_buffer);
 		}
 
-		vk::CommandBuffer EndSingleTimeCmds(vk::Device _device)
-		{ }
-
 		void FreeCommandBuffers(vk::Device _device)
 		{
 			_device.freeCommandBuffers(m_command_pool, static_cast<uint32_t>(m_command_buffers.size()), m_command_buffers.data());
@@ -94,7 +91,7 @@ namespace VkRes
 			return m_command_buffers;
 		}
 
-		int CommandBufferCount()
+		int CommandBufferCount() const
 		{
 			return m_command_buffers.size();
 		}

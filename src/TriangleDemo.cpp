@@ -38,6 +38,8 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	m_graphics_pipeline.Destroy(g_VkGenerator.Device());
+
 	for (auto& i : m_framebuffers)
 	{
 		i.Destroy(g_VkGenerator.Device());
