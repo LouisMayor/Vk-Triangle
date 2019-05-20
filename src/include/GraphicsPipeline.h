@@ -27,11 +27,10 @@ namespace VkRes
 		                   vk::Bool32              _sample_shading)
 		{ }
 
-		void SetPushConstants(uint32_t _offset, vk::ShaderStageFlagBits _stage)
+		void SetPushConstants(uint32_t _offset, uint32_t _size, vk::ShaderStageFlagBits _stage)
 		{ }
 
 		template <typename PushConstT> void SetPushConstants(uint32_t                _offset,
-		                                                     uint32_t                _size,
 		                                                     vk::ShaderStageFlagBits _stage)
 		{ }
 
