@@ -11,35 +11,51 @@ namespace VkRes
 		void Destroy(vk::Device _device)
 		{ }
 
-		void SetInputAssembler()
+		void SetInputAssembler(vk::VertexInputBindingDescription                _binding_desc,
+		                       std::vector<vk::VertexInputAttributeDescription> _attribute_desc,
+		                       vk::PrimitiveTopology                            _topology,
+		                       vk::Bool32                                       _primitive_restart)
 		{ }
 
-		void SetViewport()
+		void SetViewport(vk::Extent2D _viewport_dimensions, float _min_depth, float _max_depth)
 		{ }
 
-		void SetRasterizer()
+		void SetRasterizer(vk::Bool32              _depth_write,
+		                   vk::Bool32              _depth_test,
+		                   vk::CompareOp           _depth_comp_op,
+		                   vk::SampleCountFlagBits _multisampling_count,
+		                   vk::Bool32              _sample_shading)
 		{ }
 
-		void SetPushConstants()
+		void SetPushConstants(uint32_t _offset, vk::ShaderStageFlagBits _stage)
 		{ }
 
-		template <typename PushConstT> void SetPushConstants()
+		template <typename PushConstT> void SetPushConstants(uint32_t                _offset,
+		                                                     uint32_t                _size,
+		                                                     vk::ShaderStageFlagBits _stage)
 		{ }
 
-		void SetShaders()
+		void SetShaders(std::vector<vk::PipelineShaderStageCreateInfo> _shaders)
 		{ }
 
-		void SetPipelineLayout()
+		void SetPipelineLayout(vk::Device               _device,
+		                       vk::DescriptorSetLayout* _descriptor_set_layout,
+		                       uint32_t                 _descriptor_set_layout_count,
+		                       uint32_t                 _push_constant_count)
 		{ }
 
-		bool CreateGraphicPipeline()
+		bool CreateGraphicPipeline(vk::Device _device, vk::RenderPass _render_pass)
 		{ }
 
-		vk::PipelineLayout PipelineLayout()
-		{ }
+		vk::PipelineLayout& PipelineLayout()
+		{
+			return m_layout;
+		}
 
-		vk::Pipeline Pipeline()
-		{ }
+		vk::Pipeline& Pipeline()
+		{
+			return m_pipeline;
+		}
 
 	private:
 		// Input & Vertex
