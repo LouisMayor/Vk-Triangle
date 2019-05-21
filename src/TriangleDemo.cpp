@@ -143,7 +143,14 @@ void VkTriangleDemo::CreateFrameBuffers()
 }
 
 void VkTriangleDemo::CreatePipelines()
-{}
+{
+	m_graphics_pipeline.SetInputAssembler({}, {}, vk::PrimitiveTopology::eTriangleList, VK_FALSE);
+	m_graphics_pipeline.SetViewport(m_swapchain.Extent(), 0.0f, 1.0f);
+	m_graphics_pipeline.SetRasterizer(VK_TRUE, VK_TRUE, vk::CompareOp::eLess, vk::SampleCountFlagBits::e1, VK_FALSE);
+	m_graphics_pipeline.SetShaders({}); // todo: need to add shaders, this currently guarantees error and crash
+	m_graphics_pipeline.CreatePipelineLayout(g_VkGenerator.Device(), nullptr, 0, 0);
+	m_graphics_pipeline.CreateGraphicPipeline(g_VkGenerator.Device(), m_render_pass.Pass());
+}
 
 void VkTriangleDemo::CreateColourResources()
 {
