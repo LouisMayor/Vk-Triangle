@@ -87,14 +87,14 @@ void VkTriangleDemo::RecordCmdBuffer()
 		nullptr
 	};
 
+	std::array<vk::ClearValue, 2> clear_values = {};
+	clear_values[0].color.setFloat32( { 0.0f, 0.0f, 0.0f, 1.0f } );
+	clear_values[1].depthStencil.setDepth( 1.0f );
+	clear_values[1].depthStencil.setStencil( 0 );
+
 	for (auto buffer_index = 0 ; buffer_index < m_command.CommandBufferCount() ; ++buffer_index)
 	{
 		m_command.BeginRecording(&begin_info, buffer_index);
-
-		std::array<vk::ClearValue, 2> clear_values = {};
-		clear_values[0].color.setFloat32({0.0f, 0.0f, 0.0f, 1.0f});
-		clear_values[1].depthStencil.setDepth(1.0f);
-		clear_values[1].depthStencil.setStencil(0);
 
 		vk::RenderPassBeginInfo render_pass_begin_info =
 		{
