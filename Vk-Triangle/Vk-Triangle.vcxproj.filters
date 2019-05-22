@@ -66,6 +66,9 @@
     <ClInclude Include="..\src\include\GraphicsPipeline.h">
       <Filter>Header Files\Vulkan Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\include\Shader.h">
+      <Filter>Header Files\Vulkan Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Main.cpp">
@@ -80,5 +83,13 @@
     <ClCompile Include="..\src\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\triangle_no_mesh.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\shaders\triangle_no_mesh.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

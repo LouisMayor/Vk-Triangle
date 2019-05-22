@@ -19,6 +19,7 @@ int main()
 	g_VkGenerator.Init();
 
 	VkTriangleDemo triangle_demo;
+	triangle_demo.SetShaderDirectory("../shaders/");
 	triangle_demo.Setup();
 	triangle_demo.Run();
 	triangle_demo.Shutdown();

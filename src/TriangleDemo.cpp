@@ -38,6 +38,8 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	m_vert.Destroy(g_VkGenerator.Device());
+	m_frag.Destroy(g_VkGenerator.Device());
 	m_graphics_pipeline.Destroy(g_VkGenerator.Device());
 
 	for (auto& i : m_framebuffers)
@@ -144,10 +146,32 @@ void VkTriangleDemo::CreateFrameBuffers()
 
 void VkTriangleDemo::CreatePipelines()
 {
+	if (m_shader_directory.empty())
+	{
+		g_Logger.Error("No Shader Directory has been set");
+		return;
+	}
+
+	m_vert = VkRes::Shader(g_VkGenerator.Device(),
+	                       vk::ShaderStageFlagBits::eVertex,
+	                       m_shader_directory,
+	                       "triangle_no_mesh.vert.spv");
+
+	m_frag = VkRes::Shader(g_VkGenerator.Device(),
+	                       vk::ShaderStageFlagBits::eFragment,
+	                       m_shader_directory,
+	                       "triangle_no_mesh.frag.spv");
+
+	const std::vector<vk::PipelineShaderStageCreateInfo> stages
+	{
+		m_vert.Set(),
+		m_frag.Set()
+	};
+
 	m_graphics_pipeline.SetInputAssembler({}, {}, vk::PrimitiveTopology::eTriangleList, VK_FALSE);
 	m_graphics_pipeline.SetViewport(m_swapchain.Extent(), 0.0f, 1.0f);
 	m_graphics_pipeline.SetRasterizer(VK_TRUE, VK_TRUE, vk::CompareOp::eLess, vk::SampleCountFlagBits::e1, VK_FALSE);
-	m_graphics_pipeline.SetShaders({}); // todo: need to add shaders, this currently guarantees error and crash
+	m_graphics_pipeline.SetShaders(stages);
 	m_graphics_pipeline.CreatePipelineLayout(g_VkGenerator.Device(), nullptr, 0, 0);
 	m_graphics_pipeline.CreateGraphicPipeline(g_VkGenerator.Device(), m_render_pass.Pass());
 }

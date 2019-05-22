@@ -23,6 +23,21 @@ public:
 	virtual ~VkDemo()
 	{}
 
+	void virtual SetShaderDirectory(const std::string _directory)
+	{
+		m_shader_directory = _directory;
+	}
+
+	void SetTextureDirectory(const std::string _directory)
+	{
+		m_texture_directory = _directory;
+	}
+
+	void SetModelDirectory(const std::string _directory)
+	{
+		m_model_directory = _directory;
+	}
+
 	void virtual Setup() = 0;
 
 	void virtual Run() = 0;
@@ -50,4 +65,8 @@ private:
 
 protected:
 	VkApp m_app_instance;
+
+	std::string m_shader_directory;
+	std::string m_texture_directory;
+	std::string m_model_directory;
 };

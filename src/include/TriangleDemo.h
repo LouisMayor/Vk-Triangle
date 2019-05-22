@@ -2,7 +2,7 @@
 
 #include "Demo.h"
 
-class VkTriangleDemo : VkDemo
+class VkTriangleDemo : public VkDemo
 {
 public:
 
@@ -59,6 +59,8 @@ private:
 	VkRes::RenderPass               m_render_pass;
 	std::vector<VkRes::FrameBuffer> m_framebuffers;
 	VkRes::GraphicsPipeline         m_graphics_pipeline;
+	VkRes::Shader                   m_vert;
+	VkRes::Shader                   m_frag;
 
 	bool m_multisampling = false;
 };
