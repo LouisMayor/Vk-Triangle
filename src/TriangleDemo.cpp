@@ -80,7 +80,40 @@ void VkTriangleDemo::SubmitQueue()
 {}
 
 void VkTriangleDemo::RecordCmdBuffer()
-{}
+{
+	vk::CommandBufferBeginInfo begin_info =
+	{
+		vk::CommandBufferUsageFlagBits::eSimultaneousUse,
+		nullptr
+	};
+
+	for (auto buffer_index = 0 ; buffer_index < m_command.CommandBufferCount() ; ++buffer_index)
+	{
+		m_command.BeginRecording(&begin_info, buffer_index);
+
+		std::array<vk::ClearValue, 2> clear_values = {};
+		clear_values[0].color.setFloat32({0.0f, 0.0f, 0.0f, 1.0f});
+		clear_values[1].depthStencil.setDepth(1.0f);
+		clear_values[1].depthStencil.setStencil(0);
+
+		vk::RenderPassBeginInfo render_pass_begin_info =
+		{
+			m_render_pass.Pass(),
+			m_framebuffers[buffer_index].Buffer(),
+			vk::Rect2D{vk::Offset2D{0, 0}, m_swapchain.Extent()},
+			2,
+			clear_values.data()
+		};
+
+		m_command.BeginRenderPass(&render_pass_begin_info, vk::SubpassContents::eInline, buffer_index);
+
+		m_command.BindPipeline(vk::PipelineBindPoint::eGraphics, m_graphics_pipeline.Pipeline(), buffer_index);
+
+		m_command.EndRenderPass(buffer_index);
+
+		m_command.EndRecording(buffer_index);
+	}
+}
 
 void VkTriangleDemo::CreateSwapchain()
 {
@@ -91,6 +124,7 @@ void VkTriangleDemo::CreateSwapchain()
 void VkTriangleDemo::CreateCmdPool()
 {
 	m_command = VkRes::Command(g_VkGenerator.Device(), g_VkGenerator.QueueFamily());
+	m_command.CreateCmdBuffers(g_VkGenerator.Device(), m_swapchain.ImageViews().size());
 }
 
 void VkTriangleDemo::CreateRenderPasses()
@@ -128,7 +162,7 @@ void VkTriangleDemo::CreateRenderPasses()
 
 void VkTriangleDemo::CreateFrameBuffers()
 {
-	auto image_views = m_swapchain.ImageViews();
+	const auto image_views = m_swapchain.ImageViews();
 	m_framebuffers.resize(image_views.size());
 
 	for (uint32_t i = 0 ; i < image_views.size() ; ++i)

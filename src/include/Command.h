@@ -16,8 +16,76 @@ namespace VkRes
 			};
 
 			const auto result = _device.createCommandPool(&create_info, nullptr, &m_command_pool);
-
 			assert(("Failed to create command pool", result == vk::Result::eSuccess));
+		}
+
+		void CreateCmdBuffers(vk::Device _device, int _number_of_buffers)
+		{
+			m_command_buffers.resize(_number_of_buffers);
+
+			vk::CommandBufferAllocateInfo alloc_info =
+			{
+				CommandPool(),
+				vk::CommandBufferLevel::ePrimary,
+				m_command_buffers.size()
+			};
+
+			const auto result = _device.allocateCommandBuffers(&alloc_info, m_command_buffers.data());
+			assert(("Failed to allocate command buffers", result == vk::Result::eSuccess));
+		}
+
+		void BeginRecording(vk::CommandBufferBeginInfo* const _begin_info, int _command_buffer_index)
+		{
+			const auto result = m_command_buffers[_command_buffer_index].begin(_begin_info);
+			assert(("Failed to begin recording a command buffer", result == vk::Result::eSuccess));
+		}
+
+		void EndRecording(int _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].end();
+		}
+
+		void BeginRenderPass(vk::RenderPassBeginInfo* const _render_pass_begin_info,
+		                     vk::SubpassContents            _contents,
+		                     int                            _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].beginRenderPass(_render_pass_begin_info, _contents);
+		}
+
+		void EndRenderPass(int _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].endRenderPass();
+		}
+
+		void BindPipeline(vk::PipelineBindPoint _bind_point, vk::Pipeline _pipeline, int _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].bindPipeline(_bind_point, _pipeline);
+		}
+
+		void BindDescriptorSets(vk::PipelineBindPoint _bind_point,
+		                        vk::PipelineLayout    _pipeline_layout,
+		                        vk::DescriptorSet*    _sets,
+		                        int                   _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].bindDescriptorSets(_bind_point,
+			                                                            _pipeline_layout,
+			                                                            0,
+			                                                            1,
+			                                                            _sets,
+			                                                            0,
+			                                                            nullptr);
+		}
+
+		template <typename T> void PushConstants(const T&                        _mapped_data,
+		                                         const vk::PipelineBindPoint     _pipelineLayout,
+		                                         const vk::ShaderStageFlagBits&& _shaderStageFlag,
+		                                         int                             _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].pushConstants(_pipelineLayout,
+			                                                       _shaderStageFlag,
+			                                                       0,
+			                                                       sizeof(T),
+			                                                       &_mapped_data);
 		}
 
 		vk::CommandBuffer BeginSingleTimeCmds(vk::Device _device)
