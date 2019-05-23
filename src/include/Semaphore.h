@@ -28,7 +28,7 @@ namespace VkRes
 			}
 		}
 
-		vk::Semaphore SemaphoreInstanace()
+		vk::Semaphore SemaphoreInstance()
 		{
 			return m_semaphore;
 		}

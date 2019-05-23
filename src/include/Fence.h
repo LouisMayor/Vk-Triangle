@@ -28,7 +28,7 @@ namespace VkRes
 			}
 		}
 
-		vk::Fence FenceInstanace()
+		vk::Fence FenceInstance()
 		{
 			return m_fence;
 		}

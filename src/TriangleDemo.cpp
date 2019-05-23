@@ -89,8 +89,8 @@ VkBool32 VkTriangleDemo::TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFl
 void VkTriangleDemo::SubmitQueue()
 {
 	const auto device                    = g_VkGenerator.Device();
-	const auto fence                     = &m_inflight_fences[m_current_frame].FenceInstanace();
-	const auto image_available_semaphore = m_image_available_semaphores[m_current_frame].SemaphoreInstanace();
+	const auto fence                     = &m_inflight_fences[m_current_frame].FenceInstance();
+	const auto image_available_semaphore = m_image_available_semaphores[m_current_frame].SemaphoreInstance();
 	const auto graphics_queue            = g_VkGenerator.GraphicsQueue();
 	const auto present_queue             = g_VkGenerator.PresentQueue();
 
@@ -124,7 +124,7 @@ void VkTriangleDemo::SubmitQueue()
 		1,
 		&command_buffer,
 		1,
-		&m_render_finished_semaphores[m_current_frame].SemaphoreInstanace(),
+		&m_render_finished_semaphores[m_current_frame].SemaphoreInstance(),
 	};
 
 	const auto fence_reset_result = device.resetFences(1, fence);
@@ -136,7 +136,7 @@ void VkTriangleDemo::SubmitQueue()
 	const vk::PresentInfoKHR present_info =
 	{
 		1,
-		&m_render_finished_semaphores[m_current_frame].SemaphoreInstanace(),
+		&m_render_finished_semaphores[m_current_frame].SemaphoreInstance(),
 		1,
 		&m_swapchain.SwapchainInstance(),
 		&image_index
