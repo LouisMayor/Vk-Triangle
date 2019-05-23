@@ -88,9 +88,9 @@ void VkTriangleDemo::RecordCmdBuffer()
 	};
 
 	std::array<vk::ClearValue, 2> clear_values = {};
-	clear_values[0].color.setFloat32( { 0.0f, 0.0f, 0.0f, 1.0f } );
-	clear_values[1].depthStencil.setDepth( 1.0f );
-	clear_values[1].depthStencil.setStencil( 0 );
+	clear_values[0].color.setFloat32({0.0f, 0.0f, 0.0f, 1.0f});
+	clear_values[1].depthStencil.setDepth(1.0f);
+	clear_values[1].depthStencil.setStencil(0);
 
 	for (auto buffer_index = 0 ; buffer_index < m_command.CommandBufferCount() ; ++buffer_index)
 	{
@@ -108,6 +108,8 @@ void VkTriangleDemo::RecordCmdBuffer()
 		m_command.BeginRenderPass(&render_pass_begin_info, vk::SubpassContents::eInline, buffer_index);
 
 		m_command.BindPipeline(vk::PipelineBindPoint::eGraphics, m_graphics_pipeline.Pipeline(), buffer_index);
+
+		m_command.Draw(3, 1, 0, 0, buffer_index);
 
 		m_command.EndRenderPass(buffer_index);
 

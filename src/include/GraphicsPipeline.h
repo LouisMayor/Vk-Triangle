@@ -36,7 +36,7 @@ namespace VkRes
 			m_vertex_input_state_create_info = vk::PipelineVertexInputStateCreateInfo
 			{
 				{},
-				1,
+				0,
 				&m_vertex_binding_desc != nullptr ?
 					&m_vertex_binding_desc :
 					nullptr,
