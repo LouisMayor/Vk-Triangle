@@ -7,3 +7,5 @@
 #include "FrameBuffer.h"
 #include "GraphicsPipeline.h"
 #include "Shader.h"
+#include "Fence.h"
+#include "Semaphore.h"

@@ -47,6 +47,8 @@ public:
 private:
 	void virtual SubmitQueue() = 0;
 
+	void virtual CreateSyncObjects() = 0;
+
 	void virtual RecordCmdBuffer() = 0;
 
 	void virtual CreateSwapchain() = 0;
@@ -64,7 +66,12 @@ private:
 	void virtual CreateDepthResources() = 0;
 
 protected:
+
 	VkApp m_app_instance;
+
+	bool m_buffer_resized     = false;
+	int  m_current_frame      = 0;
+	int  MAX_FRAMES_IN_FLIGHT = 3;
 
 	std::string m_shader_directory;
 	std::string m_texture_directory;

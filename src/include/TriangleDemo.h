@@ -37,6 +37,8 @@ private:
 
 	void SubmitQueue() override;
 
+	void CreateSyncObjects() override;
+
 	void RecordCmdBuffer() override;
 
 	void CreateSwapchain() override;
@@ -61,6 +63,9 @@ private:
 	VkRes::GraphicsPipeline         m_graphics_pipeline;
 	VkRes::Shader                   m_vert;
 	VkRes::Shader                   m_frag;
+	std::vector<VkRes::Fence>       m_inflight_fences;
+	std::vector<VkRes::Semaphore>   m_image_available_semaphores;
+	std::vector<VkRes::Semaphore>   m_render_finished_semaphores;
 
 	bool m_multisampling = false;
 };

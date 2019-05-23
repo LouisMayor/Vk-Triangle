@@ -101,6 +101,11 @@ namespace VkRes
 			return m_swapchain_image_views;
 		}
 
+		vk::SwapchainKHR& SwapchainInstance()
+		{
+			return m_swapchain;
+		}
+
 	private:
 
 		vk::SurfaceFormatKHR ChooseSwapchainSurfaceFormat(std::vector<vk::SurfaceFormatKHR> _formats)

@@ -13,6 +13,7 @@ void VkTriangleDemo::Setup()
 	CreateFrameBuffers();
 	CreatePipelines();
 	RecordCmdBuffer();
+	CreateSyncObjects();
 
 	m_app_instance.SetWindowTitle("Vulkan Triangle Demo");
 	m_app_instance.Start();
@@ -38,6 +39,15 @@ void VkTriangleDemo::Run()
 
 void VkTriangleDemo::Shutdown()
 {
+	g_VkGenerator.Device().waitIdle();
+
+	for( int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++ )
+	{
+		m_inflight_fences[i].Destroy(g_VkGenerator.Device());
+		m_image_available_semaphores[i].Destroy(g_VkGenerator.Device());
+		m_render_finished_semaphores[i].Destroy(g_VkGenerator.Device());
+	}
+
 	m_vert.Destroy(g_VkGenerator.Device());
 	m_frag.Destroy(g_VkGenerator.Device());
 	m_graphics_pipeline.Destroy(g_VkGenerator.Device());
@@ -77,7 +87,90 @@ VkBool32 VkTriangleDemo::TriangleDemoDebugCallback(VkDebugUtilsMessageSeverityFl
 }
 
 void VkTriangleDemo::SubmitQueue()
-{}
+{
+	const auto device                    = g_VkGenerator.Device();
+	const auto fence                     = &m_inflight_fences[m_current_frame].FenceInstanace();
+	const auto image_available_semaphore = m_image_available_semaphores[m_current_frame].SemaphoreInstanace();
+	const auto graphics_queue            = g_VkGenerator.GraphicsQueue();
+	const auto present_queue             = g_VkGenerator.PresentQueue();
+
+	device.waitForFences(1, fence, VK_TRUE, std::numeric_limits<uint64_t>::max());
+
+	const auto result_val = device.acquireNextImageKHR(m_swapchain.SwapchainInstance(),
+	                                                   std::numeric_limits<uint64_t>::max(),
+	                                                   image_available_semaphore,
+	                                                   nullptr);
+	const uint32_t image_index = result_val.value;
+
+	if (result_val.result == vk::Result::eErrorOutOfDateKHR)
+	{
+		g_Logger.Error("Recreate your swapchain - vk::Result::eErrorOutOfDateKHR");
+	}
+	else if (result_val.result != vk::Result::eSuccess && result_val.result == vk::Result::eSuboptimalKHR)
+	{
+		g_Logger.Error("Failed to acquire swapchain image");
+		return;
+	}
+
+	const auto command_buffer = m_command.CommandBuffer(image_index);
+
+	vk::PipelineStageFlags waitStages[] = {vk::PipelineStageFlagBits::eColorAttachmentOutput};
+
+	const vk::SubmitInfo submit_info =
+	{
+		1,
+		&image_available_semaphore,
+		waitStages,
+		1,
+		&command_buffer,
+		1,
+		&m_render_finished_semaphores[m_current_frame].SemaphoreInstanace(),
+	};
+
+	const auto fence_reset_result = device.resetFences(1, fence);
+	assert(("Failed to reset fence", fence_reset_result == vk::Result::eSuccess));
+
+	const auto submit_result = graphics_queue.submit(1, &submit_info, *fence);
+	assert(("Failed to submit a draw queue", submit_result == vk::Result::eSuccess));
+
+	const vk::PresentInfoKHR present_info =
+	{
+		1,
+		&m_render_finished_semaphores[m_current_frame].SemaphoreInstanace(),
+		1,
+		&m_swapchain.SwapchainInstance(),
+		&image_index
+	};
+
+	const auto present_result = present_queue.presentKHR(&present_info);
+
+	if (present_result == vk::Result::eErrorOutOfDateKHR || present_result == vk::Result::eSuboptimalKHR || m_buffer_resized)
+	{
+		m_buffer_resized = false;
+		g_Logger.Error("Need to recreate swapchain");
+	}
+	else if (present_result != vk::Result::eSuccess)
+	{
+		g_Logger.Error("Failed to present backbuffer");
+		return;
+	}
+
+	m_current_frame = (m_current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
+}
+
+void VkTriangleDemo::CreateSyncObjects()
+{
+	m_inflight_fences.resize(MAX_FRAMES_IN_FLIGHT);
+	m_image_available_semaphores.resize(MAX_FRAMES_IN_FLIGHT);
+	m_render_finished_semaphores.resize(MAX_FRAMES_IN_FLIGHT);
+
+	for (int i = 0 ; i < MAX_FRAMES_IN_FLIGHT ; i++)
+	{
+		m_inflight_fences[i]            = VkRes::Fence(g_VkGenerator.Device(), vk::FenceCreateFlagBits::eSignaled);
+		m_image_available_semaphores[i] = VkRes::Semaphore(g_VkGenerator.Device(), {});
+		m_render_finished_semaphores[i] = VkRes::Semaphore(g_VkGenerator.Device(), {});
+	}
+}
 
 void VkTriangleDemo::RecordCmdBuffer()
 {

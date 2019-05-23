@@ -114,6 +114,11 @@ namespace VkRes
 			                                                     _first_instance);
 		}
 
+		vk::CommandBuffer& CommandBuffer(int _command_buffer_index)
+		{
+			return m_command_buffers[_command_buffer_index];
+		}
+
 		vk::CommandBuffer BeginSingleTimeCmds(vk::Device _device)
 		{
 			const vk::CommandBufferAllocateInfo alloc_info =
