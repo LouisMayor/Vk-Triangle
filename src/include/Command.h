@@ -88,6 +88,32 @@ namespace VkRes
 			                                                       &_mapped_data);
 		}
 
+		void Draw(uint32_t _vertex_count,
+		          uint32_t _instance_count,
+		          uint32_t _first_vertex,
+		          uint32_t _first_instance,
+		          int      _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].draw(_vertex_count,
+			                                              _instance_count,
+			                                              _first_vertex,
+			                                              _first_instance);
+		}
+
+		void DrawIndex(uint32_t _index_count,
+		               uint32_t _instance_count,
+		               uint32_t _first_index,
+		               uint32_t _vertex_offset,
+		               uint32_t _first_instance,
+		               int      _command_buffer_index)
+		{
+			m_command_buffers[_command_buffer_index].drawIndexed(_index_count,
+			                                                     _instance_count,
+			                                                     _first_index,
+			                                                     _vertex_offset,
+			                                                     _first_instance);
+		}
+
 		vk::CommandBuffer BeginSingleTimeCmds(vk::Device _device)
 		{
 			const vk::CommandBufferAllocateInfo alloc_info =
