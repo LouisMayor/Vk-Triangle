@@ -43,6 +43,8 @@ private:
 
 	void CreateSwapchain() override;
 
+	void CreateShaders() override;
+
 	void CreateCmdPool() override;
 
 	void CreateRenderPasses() override;
@@ -54,6 +56,12 @@ private:
 	void CreateColourResources() override;
 
 	void CreateDepthResources() override;
+
+	void CleanSwapchain() override;
+
+	void RecreateSwapchain() override;
+
+	void CreateCmdBuffers( ) override;
 
 	VkRes::Swapchain                m_swapchain;
 	VkRes::Command                  m_command;

@@ -7,10 +7,12 @@ void VkTriangleDemo::Setup()
 {
 	CreateSwapchain();
 	CreateCmdPool();
+	CreateCmdBuffers();
 	CreateColourResources();
 	CreateDepthResources(); // Not created for this program
 	CreateRenderPasses();
 	CreateFrameBuffers();
+	CreateShaders();
 	CreatePipelines();
 	RecordCmdBuffer();
 	CreateSyncObjects();
@@ -41,7 +43,7 @@ void VkTriangleDemo::Shutdown()
 {
 	g_VkGenerator.Device().waitIdle();
 
-	for( int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++ )
+	for (int i = 0 ; i < MAX_FRAMES_IN_FLIGHT ; i++)
 	{
 		m_inflight_fences[i].Destroy(g_VkGenerator.Device());
 		m_image_available_semaphores[i].Destroy(g_VkGenerator.Device());
@@ -104,7 +106,7 @@ void VkTriangleDemo::SubmitQueue()
 
 	if (result_val.result == vk::Result::eErrorOutOfDateKHR)
 	{
-		g_Logger.Error("Recreate your swapchain - vk::Result::eErrorOutOfDateKHR");
+		RecreateSwapchain();
 	}
 	else if (result_val.result != vk::Result::eSuccess && result_val.result == vk::Result::eSuboptimalKHR)
 	{
@@ -147,7 +149,7 @@ void VkTriangleDemo::SubmitQueue()
 	if (present_result == vk::Result::eErrorOutOfDateKHR || present_result == vk::Result::eSuboptimalKHR || m_buffer_resized)
 	{
 		m_buffer_resized = false;
-		g_Logger.Error("Need to recreate swapchain");
+		RecreateSwapchain();
 	}
 	else if (present_result != vk::Result::eSuccess)
 	{
@@ -219,6 +221,10 @@ void VkTriangleDemo::CreateSwapchain()
 void VkTriangleDemo::CreateCmdPool()
 {
 	m_command = VkRes::Command(g_VkGenerator.Device(), g_VkGenerator.QueueFamily());
+}
+
+void VkTriangleDemo::CreateCmdBuffers()
+{
 	m_command.CreateCmdBuffers(g_VkGenerator.Device(), m_swapchain.ImageViews().size());
 }
 
@@ -273,24 +279,27 @@ void VkTriangleDemo::CreateFrameBuffers()
 	}
 }
 
-void VkTriangleDemo::CreatePipelines()
+void VkTriangleDemo::CreateShaders()
 {
-	if (m_shader_directory.empty())
+	if( m_shader_directory.empty( ) )
 	{
-		g_Logger.Error("No Shader Directory has been set");
+		g_Logger.Error( "No Shader Directory has been set" );
 		return;
 	}
 
-	m_vert = VkRes::Shader(g_VkGenerator.Device(),
-	                       vk::ShaderStageFlagBits::eVertex,
-	                       m_shader_directory,
-	                       "triangle_no_mesh.vert.spv");
+	m_vert = VkRes::Shader( g_VkGenerator.Device( ),
+							vk::ShaderStageFlagBits::eVertex,
+							m_shader_directory,
+							"triangle_no_mesh.vert.spv" );
 
-	m_frag = VkRes::Shader(g_VkGenerator.Device(),
-	                       vk::ShaderStageFlagBits::eFragment,
-	                       m_shader_directory,
-	                       "triangle_no_mesh.frag.spv");
+	m_frag = VkRes::Shader( g_VkGenerator.Device( ),
+							vk::ShaderStageFlagBits::eFragment,
+							m_shader_directory,
+							"triangle_no_mesh.frag.spv" );
+}
 
+void VkTriangleDemo::CreatePipelines()
+{
 	const std::vector<vk::PipelineShaderStageCreateInfo> stages
 	{
 		m_vert.Set(),
@@ -320,3 +329,44 @@ void VkTriangleDemo::CreateColourResources()
 
 void VkTriangleDemo::CreateDepthResources()
 {}
+
+void VkTriangleDemo::CleanSwapchain()
+{
+	const auto device = g_VkGenerator.Device();
+
+	device.waitIdle();
+
+	m_backbuffer.Destroy(device);
+	m_command.FreeCommandBuffers(device);
+	m_graphics_pipeline.Destroy(device);
+	m_render_pass.Destroy(device);
+	for( auto& i : m_framebuffers )
+	{
+		i.Destroy( g_VkGenerator.Device( ) );
+	}
+	m_swapchain.Destroy(device);
+}
+
+void VkTriangleDemo::RecreateSwapchain()
+{
+	int width = 0, height = 0;
+	while (width == 0 || height == 0)
+	{
+		glfwGetFramebufferSize(g_VkGenerator.WindowHdle(), &width, &height);
+		glfwWaitEvents();
+	}
+
+	g_VkGenerator.Device().waitIdle();
+	g_VkGenerator.RefreshSwapchainDetails();
+
+	CleanSwapchain();
+	CreateSwapchain();
+	CreateCmdBuffers();
+	CreateColourResources( );
+	CreateDepthResources( ); // Not created for this program
+	CreateRenderPasses( );
+	CreateFrameBuffers();
+	CreatePipelines( );
+
+	RecordCmdBuffer();
+}

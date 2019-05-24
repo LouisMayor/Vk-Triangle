@@ -89,6 +89,8 @@ namespace VkGen
 		/* Note: This isn't required, as VkGenerator does provide a default function callback */
 		void AddValidationLayerCallback( VkBool32( __stdcall *func_ptr )( VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT*, void* ) );
 
+		void RefreshSwapchainDetails();
+
 		/* private functions */
 	private:
 		VkGenerator() = default;

@@ -55,15 +55,23 @@ private:
 
 	void virtual CreateCmdPool() = 0;
 
+	void virtual CreateCmdBuffers( ) = 0;
+
 	void virtual CreateRenderPasses() = 0;
 
 	void virtual CreateFrameBuffers() = 0;
+
+	void virtual CreateShaders() = 0;
 
 	void virtual CreatePipelines() = 0;
 
 	void virtual CreateColourResources() = 0;
 
 	void virtual CreateDepthResources() = 0;
+
+	void virtual CleanSwapchain() = 0;
+
+	void virtual RecreateSwapchain() = 0;
 
 protected:
 

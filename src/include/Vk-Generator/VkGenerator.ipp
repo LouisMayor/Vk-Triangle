@@ -290,6 +290,11 @@ namespace VkGen
 				<< std::endl;
 	}
 
+	inline void VkGenerator::RefreshSwapchainDetails()
+	{
+		m_swapchain_support = QuerySwapChainSupport(PhysicalDevice());
+	}
+
 	inline VkBool32 VkGenerator::IsDeviceSuitable(const vk::PhysicalDevice _physical_device)
 	{
 		m_queue_family_indices            = FindQueueFamilies(_physical_device);
